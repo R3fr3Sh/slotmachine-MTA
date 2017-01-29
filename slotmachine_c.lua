@@ -21,9 +21,9 @@ settings.font = "font/Roboto.ttf"
 settings.language = "polish"
 settings.jackpotSound = "sounds/jackpot.ogg" -- SOURCE: https://www.freesound.org/people/Robinhood76/sounds/51671/ "This work is licensed under the Attribution Noncommercial License."
 settings.positionsCol = {  -- slot machine colshape positions
-	-- {x, y, z, size}
-	{2469.46216, -1668.20105, 13.30439, 2},
-	{2467.83081, -1652.79504, 13.46875, 2},
+	-- {x, y, z, size, dimension, interior}
+	{2469.46216, -1668.20105, 13.30439, 2, 0, 0},
+	{2467.83081, -1652.79504, 13.46875, 2, 0, 0},
 }
 
 -- don't modify these unless you know what you are doing
@@ -467,21 +467,12 @@ end
 local function setup()
 	for k,v in ipairs(settings.positionsCol) do
 		local col = createColSphere(v[1], v[2], v[3], v[4])
+		setElementDimension(col, v[5])
+		setElementInterior(col, v[6])
 		addEventHandler("onClientColShapeHit", col, showGUI)
 	end
 end
 setup()
-
-
-
-
-
-
-
-
-
-
-
 
 
 
