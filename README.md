@@ -1,7 +1,7 @@
-Casino - slot machine
-@author Hyperion/R3fr3Sh <r3fr3sh123@gmail.com>
-@copyright 2017 Hyperion/R3fr3Sh <r3fr3sh123@gmail.com>
-@license GPLv3
+Casino - slot machine  
+@author Hyperion/R3fr3Sh <r3fr3sh123@gmail.com>  
+@copyright 2017 Hyperion/R3fr3Sh <r3fr3sh123@gmail.com>  
+@license GPLv3  
 
 
 BACKGROUND SOURCE: http://www.freepik.com/free-vector/valentine-s-background-design_1024958.htm#term=slot 
