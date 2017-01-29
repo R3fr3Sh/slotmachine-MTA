@@ -12,3 +12,5 @@ SOUND SOURCE: https://www.freesound.org/people/Robinhood76/sounds/51671/
 "This work is licensed under the Attribution Noncommercial License."  
 
 CARDS SOURCE: http://www.freepik.com/free-vector/set-of-slot-machine-cards_756468.htm  
+
+I will gladly accept pull requests.
