@@ -444,6 +444,9 @@ local function setGUIlanguage(language) --use that to change language settings. 
 end
 
 local function showGUI()
+	if not md or not el or getElementType(el) ~= "player" or el ~= localPlayer then
+		return
+	end
 	for k,v in pairs(gui) do
 		guiSetVisible(v, true)
 	end
