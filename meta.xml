@@ -1,0 +1,30 @@
+<meta>
+    <info author="Hyperion/R3fr3Sh" type="script" name="Casino slot machine" version="1.0.0" />
+
+    <file src="img/drum.png" type="client" />
+    <file src="img/cards.png" type="client" />
+
+	<file src="slotMachineCards/bell.png" type="client" />
+	<file src="slotMachineCards/cherry.png" type="client" />
+	<file src="slotMachineCards/diamond.png" type="client" />
+	<file src="slotMachineCards/emerald.png" type="client" />
+	<file src="slotMachineCards/goldbar.png" type="client" />
+	<file src="slotMachineCards/goldclover.png" type="client" />
+	<file src="slotMachineCards/goldenseven.png" type="client" />
+	<file src="slotMachineCards/grape.png" type="client" />
+	<file src="slotMachineCards/greenbar.png" type="client" />
+	<file src="slotMachineCards/greenclover.png" type="client" />
+	<file src="slotMachineCards/heart.png" type="client" />
+	<file src="slotMachineCards/horseshoe.png" type="client" />
+	<file src="slotMachineCards/lemon.png" type="client" />
+	<file src="slotMachineCards/plum.png" type="client" />
+	<file src="slotMachineCards/redbar.png" type="client" />
+	<file src="slotMachineCards/redseven.png" type="client" />
+	<file src="slotMachineCards/ruby.png" type="client" />
+	<file src="slotMachineCards/watermelon.png" type="client" />
+	<file src="sounds/jackpot.ogg" type="client" />
+	<file src="font/Roboto.ttf" type="client" />
+	
+    <script src="slotmachine_s.lua" type="server" />
+    <script src="slotmachine_c.lua" type="client" />
+</meta>
