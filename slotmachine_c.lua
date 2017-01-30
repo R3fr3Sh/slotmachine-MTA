@@ -18,7 +18,7 @@ settings.stakeMax = 500 -- maximum stake
 settings.stakeMin = 50 -- minimum stake
 settings.stakeStep = 50 -- step of a stake
 settings.font = "font/Roboto.ttf"
-settings.language = "polish"
+settings.language = "english"
 settings.jackpotSound = "sounds/jackpot.ogg" -- SOURCE: https://www.freesound.org/people/Robinhood76/sounds/51671/ "This work is licensed under the Attribution Noncommercial License."
 settings.positionsCol = {  -- slot machine colshape positions
 	-- {x, y, z, size, dimension, interior}
@@ -31,13 +31,14 @@ settings.gamesPlayed = 0  --anticheat - games played
 settings.rolling = false
 settings.cardsize = 256  -- Whenever you rescale cards, change this.
 
+
 -- source of the cards: http://www.freepik.com/free-vector/set-of-slot-machine-cards_756468.htm scaled down
 local cards = {
 	-- 1 5 10 25
 	-- {icon name, multiplier for 2x combo, multiplier for 3x combo}, with these settings avg ~=~ 1.1
 	-- bars
-	{"slotMachineCards/goldbar.png", 10, 50},
-	{"slotMachineCards/redbar.png", 5, 10},
+	{"slotMachineCards/goldbar.png", 20, 75},
+	{"slotMachineCards/redbar.png", 10, 10},
 	{"slotMachineCards/greenbar.png", 1, 5},
 	-- luck related
 	{"slotMachineCards/bell.png", 5, 10},
@@ -46,12 +47,12 @@ local cards = {
 	{"slotMachineCards/goldclover.png", 10, 25},
 	{"slotMachineCards/greenclover.png", 5, 10},
 	-- sevens
-	{"slotMachineCards/goldenseven.png", 25, 100},
+	{"slotMachineCards/goldenseven.png", 20, 75},
 	{"slotMachineCards/redseven.png", 5, 25},
 	-- gems
 	{"slotMachineCards/ruby.png", 10, 25},
 	{"slotMachineCards/emerald.png", 10, 25},
-	{"slotMachineCards/diamond.png", 20, 50},
+	{"slotMachineCards/diamond.png", 20, 75},
 	-- vegetables and fruits
 	{"slotMachineCards/cherry.png", 1, 5},
 	{"slotMachineCards/grape.png", 1, 5},
@@ -77,9 +78,9 @@ local dumpedCards = {}
 local localisation = {}
 
 localisation["english"] = {
-	winenthiusastic = "Impossible! Three same cards at the same time. You won %d$!",
+	winenthiusastic = "Impossible! Three cards at the same time. You won %d$!",
 	win = "Double hit, what a luck! You won %d$",
-	lose = "No luck this time. Good luck with next one :)",
+	lose = "No luck this time, sadly :(",
 	stakeMax = "You can't bet more than %d$!",
 	stakeMin = "You can't play, unless you make a bet of at least %d$!",
 	notEnoughCash = "You don't have enought money to make a higher bet!",
@@ -211,7 +212,8 @@ end
 local delta = getTickCount()
 local function main()
 	delta = (getTickCount() - delta)  --calculates delta time diffrence between last 2 frames
-	dxDrawRectangle(0, 0, sw, sh, tocolor(0, 0, 0 ,150))
+	delta = delta < 34 and delta or 34  -- if he has less than 30 fps his game will run slower, but it will prevent any drum related drawing problems(at least those major ones)
+	dxDrawRectangle(0, 0, sw, sh, tocolor(0, 0, 0 ,150)) --grey background
 	dxDrawImage(0.15*sw, 0.2*sh, 0.7*sw, 0.6*sh, druminteral)  --draws drum internal part
 	for key, set in ipairs (setList) do
 		if #set == 2 and key == #setList then --stops when there are only 2 cards left in the right set and ends roll.
@@ -253,16 +255,16 @@ local function generatePrizesPanel()
 	table.sort(icons, function (a,b) return a[2] < b[2] end)
 	for k,v in ipairs(icons) do
 		if icons[k-1] and v[2] ~= icons[k-1][2] then
-			local label = guiCreateLabel(0.14 + offsetx, 0.006 + offsety, 0.03, sw/sh*0.03, icons[k-1][2].."x", true)
+			local label = guiCreateLabel(0.145 + offsetx, 0.006 + offsety, 0.03, sw/sh*0.03, icons[k-1][2].."x", true)
 			table.insert(prizesPanel.labels, label)
-			offsety = offsety + 0.04
+			offsety = offsety + 0.046
 			offsetx = 0
 		end
 		local img = guiCreateStaticImage(0.15 + offsetx, 0.01 + offsety, 0.03, sw/sh*0.026, v[1], true)
 		table.insert(prizesPanel.images, img)
 		offsetx = offsetx + 0.04
 		if k == #icons then
-			local label = guiCreateLabel(0.14 + offsetx, 0.006 + offsety, 0.03, sw/sh*0.03, v[2].."x", true)
+			local label = guiCreateLabel(0.145 + offsetx, 0.006 + offsety, 0.03, sw/sh*0.03, v[2].."x", true)
 			table.insert(prizesPanel.labels, label)
 		end
 	end 
@@ -280,7 +282,7 @@ local function generatePrizesPanel()
 		if icons[k-1] and v[3] ~= icons[k-1][3] then
 			local label = guiCreateLabel(0.815 - offsetx, 0.006 + offsety, 0.04, sw/sh*0.03, icons[k-1][3].."x", true)
 			table.insert(prizesPanel.labels, label)
-			offsety = offsety + 0.04
+			offsety = offsety + 0.046
 			offsetx = 0
 		end
 		local img = guiCreateStaticImage(0.815 - offsetx, 0.01 + offsety, 0.03, sw/sh*0.026, v[1], true)
@@ -291,7 +293,8 @@ local function generatePrizesPanel()
 			table.insert(prizesPanel.labels, label)
 		end
 	end 
-	local font = guiCreateFont(settings.font, getFontSizeFromResolution(sw, sh, 80))
+	
+	local font = guiCreateFont(settings.font, getFontSizeFromResolution(sw, sh, 70))
 	for k,v in ipairs(prizesPanel.labels) do
 		guiSetFont(v, font)
 		if count < k then 
@@ -299,8 +302,8 @@ local function generatePrizesPanel()
 		end
 	end
 	
-	local label1 = guiCreateLabel(0.22, 0.145, 0.12, 0.05, "DOUBLE!", true)
-	local label2 = guiCreateLabel(0.6, 0.018, 0.12, 0.05, "TRIPLE!", true)
+	local label1 = guiCreateLabel(0.32, 0.145, 0.12, 0.05, "DOUBLE!", true)
+	local label2 = guiCreateLabel(0.56, 0.015, 0.12, 0.05, "TRIPLE!", true)
 	font = guiCreateFont(settings.font, getFontSizeFromResolution(sw, sh, 40))
 	guiSetFont(label1, font)
 	guiSetFont(label2, font)
@@ -407,7 +410,7 @@ local function createGUI()
 	gui.labelStake = guiCreateLabel(0.22, 0.792, 0.10, 0.1, string.format(localisation[settings.language].stakeInfo, settings.stake), true) --current stake
 	guiLabelSetHorizontalAlign(gui.labelStake, "center") 
 	guiLabelSetVerticalAlign(gui.labelStake, "center")
-	gui.labelMoney = guiCreateLabel(0.79, 0.01, 0.2, 0.2, getPlayerMoney().."$", true)
+	gui.labelMoney = guiCreateLabel(0.79, 0, 0.2, 0.2, getPlayerMoney().."$", true)
 	guiLabelSetHorizontalAlign(gui.labelMoney, "right") 
 	guiLabelSetVerticalAlign(gui.labelMoney, "top")
 	guiLabelSetColor(gui.labelMoney, 133, 187, 101)
@@ -424,7 +427,7 @@ local function createGUI()
 	for k,v in pairs(gui) do
 		guiSetFont(v, font)
 	end
-	guiSetFont(gui.labelMoney, "sa-gothic")
+	guiSetFont(gui.labelMoney, "sa-header")
 	
 	addEventHandler("onClientGUIMouseUp", gui.buttonRoll, onPlayerStartRoll)
 	addEventHandler("onClientGUIMouseUp", gui.buttonLeave, onPlayerLeave)
@@ -443,8 +446,8 @@ local function setGUIlanguage(language) --use that to change language settings. 
 	guiSetText(gui.buttonLeave, localisation[settings.language].leave)
 end
 
-local function showGUI()
-	if not md or not el or getElementType(el) ~= "player" or el ~= localPlayer then
+local function showGUI(el, md)
+	if not md or getElementType(el) ~= "player" or el ~= localPlayer then
 		return
 	end
 	for k,v in pairs(gui) do
@@ -473,17 +476,3 @@ local function setup()
 	end
 end
 setup()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
